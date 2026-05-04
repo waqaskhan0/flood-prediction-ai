@@ -6,73 +6,697 @@
   <title>Pakistan Flood Risk Dashboard</title>
   <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; background: #f4f6f8; color: #111827; }
-    .header { background: #0f172a; color: white; padding: 24px; text-align: center; }
-    .header h1 { margin: 0; font-size: 28px; }
-    .header p { margin: 8px 0 0; color: #cbd5e1; }
-    .container { padding: 20px; max-width: 1400px; margin: auto; }
-    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-bottom: 20px; }
-    .card, .chart { background: white; padding: 18px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
-    .metric { font-size: 30px; font-weight: bold; margin-top: 10px; }
-    .low { color: green; } .medium { color: orange; } .high { color: red; }
-    .filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 20px; }
-    label { font-weight: bold; font-size: 14px; }
-    select, button { padding: 10px; margin-top: 6px; width: 100%; box-sizing: border-box; border-radius: 6px; border: 1px solid #cbd5e1; }
-    button { background: #2563eb; color: white; border: none; cursor: pointer; font-weight: bold; }
-    button:hover { background: #1d4ed8; }
-    .chart { margin-bottom: 20px; }
-    .error { background: #fee2e2; color: #991b1b; padding: 14px; border-radius: 8px; margin-bottom: 20px; display: none; }
-    .note { background: #eff6ff; color: #1e3a8a; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; }
+    :root {
+      --bg: #eef2f6;
+      --surface: #ffffff;
+      --surface-soft: #f8fafc;
+      --ink: #101828;
+      --muted: #667085;
+      --line: #d9e2ec;
+      --brand: #0f766e;
+      --brand-dark: #115e59;
+      --blue: #2563eb;
+      --low: #16803c;
+      --medium: #b7791f;
+      --high: #c2410c;
+      --danger: #b42318;
+      --shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .app-header {
+      background: #10202f;
+      color: #ffffff;
+      border-bottom: 4px solid var(--brand);
+    }
+
+    .header-inner {
+      width: min(1440px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 22px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .title-block h1 {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .title-block p {
+      margin: 6px 0 0;
+      color: #cbd5e1;
+      max-width: 780px;
+    }
+
+    .header-status {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .status-pill {
+      min-width: 116px;
+      padding: 9px 11px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+    }
+
+    .status-pill span {
+      display: block;
+      color: #cbd5e1;
+      font-size: 12px;
+    }
+
+    .status-pill strong {
+      display: block;
+      margin-top: 2px;
+      font-size: 16px;
+    }
+
+    .container {
+      width: min(1440px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 22px 0 32px;
+    }
+
+    .toolbar,
+    .panel,
+    .metric-card,
+    .chart-panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .toolbar {
+      padding: 16px;
+      margin-bottom: 18px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(180px, 1fr));
+      gap: 14px;
+      align-items: end;
+    }
+
+    .field {
+      min-width: 0;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      color: #344054;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-height: 42px;
+      padding: 9px 11px;
+      color: var(--ink);
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 7px;
+      font: inherit;
+    }
+
+    input:focus,
+    select:focus {
+      outline: 3px solid rgba(15, 118, 110, 0.18);
+      border-color: var(--brand);
+    }
+
+    .button-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    button {
+      min-height: 42px;
+      border: 0;
+      border-radius: 7px;
+      padding: 10px 14px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      flex: 1;
+      color: #ffffff;
+      background: var(--brand);
+    }
+
+    .btn-primary:hover {
+      background: var(--brand-dark);
+    }
+
+    .btn-secondary {
+      color: #344054;
+      background: #eef2f6;
+      border: 1px solid #cbd5e1;
+    }
+
+    .btn-secondary:hover {
+      background: #e2e8f0;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(180px, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .metric-card {
+      min-height: 118px;
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .metric-card::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 84px;
+      height: 4px;
+      background: var(--brand);
+    }
+
+    .metric-card.high-card::after {
+      background: var(--high);
+    }
+
+    .metric-card.medium-card::after {
+      background: var(--medium);
+    }
+
+    .metric-card.low-card::after {
+      background: var(--low);
+    }
+
+    .metric-label {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .metric-value {
+      margin-top: 8px;
+      font-size: 30px;
+      line-height: 1;
+      font-weight: 800;
+    }
+
+    .metric-foot {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(320px, 0.85fr) minmax(560px, 1.6fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      padding: 18px;
+    }
+
+    .panel + .panel {
+      margin-top: 18px;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+
+    .panel-title {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.25;
+    }
+
+    .panel-kicker {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .prediction-form {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .form-actions {
+      grid-column: 1 / -1;
+      display: flex;
+      gap: 10px;
+      margin-top: 2px;
+    }
+
+    .prediction-result {
+      margin-top: 16px;
+      padding: 16px;
+      background: var(--surface-soft);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .risk-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .risk-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 96px;
+      padding: 8px 10px;
+      border-radius: 7px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .risk-badge.waiting {
+      color: #475467;
+      background: #e4e7ec;
+    }
+
+    .risk-badge.low {
+      background: var(--low);
+    }
+
+    .risk-badge.medium {
+      background: var(--medium);
+    }
+
+    .risk-badge.high {
+      background: var(--high);
+    }
+
+    .score-text {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .score-track {
+      height: 10px;
+      overflow: hidden;
+      background: #e4e7ec;
+      border-radius: 999px;
+    }
+
+    .score-fill {
+      width: 0%;
+      height: 100%;
+      background: var(--brand);
+      border-radius: 999px;
+      transition: width 0.25s ease;
+    }
+
+    .result-message {
+      margin: 12px 0 0;
+      color: #344054;
+    }
+
+    .driver-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .driver-chip {
+      padding: 6px 8px;
+      color: #344054;
+      background: #ffffff;
+      border: 1px solid #d0d5dd;
+      border-radius: 7px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .chart-stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .chart-panel {
+      padding: 12px;
+      min-height: 360px;
+    }
+
+    .chart-panel.map-panel {
+      min-height: 520px;
+    }
+
+    #mapChart,
+    #riskChart,
+    #yearChart {
+      width: 100%;
+      min-height: 340px;
+    }
+
+    #mapChart {
+      min-height: 500px;
+    }
+
+    .split-charts {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .insight-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .insight-item {
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface-soft);
+    }
+
+    .insight-item strong {
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .insight-item span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .error {
+      display: none;
+      margin-bottom: 18px;
+      padding: 14px;
+      color: #7a271a;
+      background: #ffead5;
+      border: 1px solid #fec84b;
+      border-radius: 8px;
+    }
+
+    .risk-low {
+      color: var(--low);
+    }
+
+    .risk-medium {
+      color: var(--medium);
+    }
+
+    .risk-high {
+      color: var(--high);
+    }
+
+    @media (max-width: 1180px) {
+      .workspace,
+      .split-charts {
+        grid-template-columns: 1fr;
+      }
+
+      .toolbar,
+      .metrics-grid {
+        grid-template-columns: repeat(2, minmax(180px, 1fr));
+      }
+    }
+
+    @media (max-width: 680px) {
+      .header-inner,
+      .container {
+        width: min(100% - 22px, 1440px);
+      }
+
+      .title-block h1 {
+        font-size: 22px;
+      }
+
+      .toolbar,
+      .metrics-grid,
+      .prediction-form {
+        grid-template-columns: 1fr;
+      }
+
+      .button-row,
+      .form-actions,
+      .risk-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .chart-panel.map-panel,
+      #mapChart {
+        min-height: 420px;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="header">
-    <h1>AI-Based Flood Prediction & Early Warning Dashboard</h1>
-    <p>Pakistan Flood Disaster Risk Monitoring System</p>
-  </div>
-
-  <div class="container">
-    <div class="note">
-      This dashboard reads real geospatial flood records from <b>flood_data.json</b>.
-      Keep <b>dashboard.html</b> and <b>flood_data.json</b> in the same folder.
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="title-block">
+        <h1>AI-Based Flood Prediction and Early Warning Dashboard</h1>
+        <p>Pakistan flood risk monitoring with historical disaster records, geospatial mapping, and client-side impact prediction.</p>
+      </div>
+      <div class="header-status">
+        <div class="status-pill">
+          <span>Dataset</span>
+          <strong id="headerRecords">0 records</strong>
+        </div>
+        <div class="status-pill">
+          <span>Coverage</span>
+          <strong id="headerYears">0 years</strong>
+        </div>
+      </div>
     </div>
+  </header>
 
+  <main class="container">
     <div id="errorBox" class="error"></div>
 
-    <div class="filters">
-      <div>
-        <label for="yearFilter">Filter by Year</label>
-        <select id="yearFilter"><option value="All">All Years</option></select>
-      </div>
-      <div>
-        <label for="riskFilter">Filter by Risk Level</label>
-        <select id="riskFilter">
-          <option value="All">All Risk Levels</option>
-          <option value="Low">Low</option>
-          <option value="Medium">Medium</option>
-          <option value="High">High</option>
+    <section class="toolbar" aria-label="Dashboard filters">
+      <div class="field">
+        <label for="yearFilter">Year</label>
+        <select id="yearFilter">
+          <option value="All">All Years</option>
         </select>
       </div>
-      <div>
-        <label>&nbsp;</label>
-        <button onclick="applyFilters()">Apply Filters</button>
+      <div class="field">
+        <label for="riskFilter">Risk Level</label>
+        <select id="riskFilter">
+          <option value="All">All Risk Levels</option>
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
       </div>
-    </div>
+      <div class="field">
+        <label for="sortFilter">Map Focus</label>
+        <select id="sortFilter">
+          <option value="All">All Locations</option>
+          <option value="Recent">Recent Records</option>
+          <option value="HighFirst">High Risk First</option>
+        </select>
+      </div>
+      <div class="button-row">
+        <button class="btn-primary" type="button" onclick="applyFilters()">Apply</button>
+        <button class="btn-secondary" type="button" onclick="resetFilters()">Reset</button>
+      </div>
+    </section>
 
-    <div class="cards">
-      <div class="card"><h3>Total Flood Records</h3><div class="metric" id="totalRecords">0</div></div>
-      <div class="card"><h3>High Risk Records</h3><div class="metric high" id="highRecords">0</div></div>
-      <div class="card"><h3>Medium Risk Records</h3><div class="metric medium" id="mediumRecords">0</div></div>
-      <div class="card"><h3>Low Risk Records</h3><div class="metric low" id="lowRecords">0</div></div>
-    </div>
+    <section class="metrics-grid" aria-label="Flood summary">
+      <article class="metric-card">
+        <p class="metric-label">Visible Records</p>
+        <div class="metric-value" id="totalRecords">0</div>
+        <div class="metric-foot" id="recordFoot">Filtered dataset</div>
+      </article>
+      <article class="metric-card high-card">
+        <p class="metric-label">High Risk</p>
+        <div class="metric-value risk-high" id="highRecords">0</div>
+        <div class="metric-foot" id="highShare">0% of visible records</div>
+      </article>
+      <article class="metric-card medium-card">
+        <p class="metric-label">Medium Risk</p>
+        <div class="metric-value risk-medium" id="mediumRecords">0</div>
+        <div class="metric-foot">Monitor closely</div>
+      </article>
+      <article class="metric-card low-card">
+        <p class="metric-label">Low Risk</p>
+        <div class="metric-value risk-low" id="lowRecords">0</div>
+        <div class="metric-foot">Lower historical impact</div>
+      </article>
+    </section>
 
-    <div class="chart"><div id="mapChart"></div></div>
-    <div class="chart"><div id="riskChart"></div></div>
-    <div class="chart"><div id="yearChart"></div></div>
-  </div>
+    <section class="workspace">
+      <aside>
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title">Predict Flood Risk</h2>
+              <p class="panel-kicker">Enter impact and location values to estimate risk.</p>
+            </div>
+          </div>
+
+          <form id="predictionForm" class="prediction-form">
+            <div class="field">
+              <label for="inputYear">Year</label>
+              <input id="inputYear" type="number" min="2000" max="2100" placeholder="2026" required />
+            </div>
+            <div class="field">
+              <label for="inputDeaths">Deaths</label>
+              <input id="inputDeaths" type="number" min="0" step="1" placeholder="35" required />
+            </div>
+            <div class="field">
+              <label for="inputLatitude">Latitude</label>
+              <input id="inputLatitude" type="number" min="23" max="38" step="0.0001" placeholder="30.0704" required />
+            </div>
+            <div class="field">
+              <label for="inputLongitude">Longitude</label>
+              <input id="inputLongitude" type="number" min="60" max="78" step="0.0001" placeholder="71.1930" required />
+            </div>
+            <div class="field">
+              <label for="inputDestroyed">Houses Destroyed</label>
+              <input id="inputDestroyed" type="number" min="0" step="1" placeholder="18000" required />
+            </div>
+            <div class="field">
+              <label for="inputDamaged">Houses Damaged</label>
+              <input id="inputDamaged" type="number" min="0" step="1" placeholder="30000" required />
+            </div>
+            <div class="field">
+              <label for="inputPeople">People Affected</label>
+              <input id="inputPeople" type="number" min="0" step="1" placeholder="450000" required />
+            </div>
+            <div class="field">
+              <label for="inputCropland">Cropland Acres</label>
+              <input id="inputCropland" type="number" min="0" step="1" placeholder="260000" required />
+            </div>
+            <div class="form-actions">
+              <button class="btn-primary" type="submit">Predict Risk</button>
+              <button class="btn-secondary" type="button" onclick="clearPrediction()">Clear</button>
+            </div>
+          </form>
+
+          <div class="prediction-result" aria-live="polite">
+            <div class="risk-row">
+              <span id="predictionBadge" class="risk-badge waiting">Awaiting Input</span>
+              <span id="predictionScore" class="score-text">Score 0/100</span>
+            </div>
+            <div class="score-track">
+              <div id="scoreFill" class="score-fill"></div>
+            </div>
+            <p id="predictionMessage" class="result-message">Prediction output will appear here.</p>
+            <div id="driverList" class="driver-list"></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title">Data Insights</h2>
+              <p class="panel-kicker">Snapshot from the visible records.</p>
+            </div>
+          </div>
+          <div class="insight-list">
+            <div class="insight-item">
+              <strong id="dominantRisk">No data</strong>
+              <span>Most common visible risk level</span>
+            </div>
+            <div class="insight-item">
+              <strong id="yearRange">No data</strong>
+              <span>Visible year range</span>
+            </div>
+            <div class="insight-item">
+              <strong id="locationCount">No data</strong>
+              <span>Mapped coordinate points</span>
+            </div>
+          </div>
+        </section>
+      </aside>
+
+      <section class="chart-stack">
+        <div class="chart-panel map-panel">
+          <div id="mapChart"></div>
+        </div>
+        <div class="split-charts">
+          <div class="chart-panel">
+            <div id="riskChart"></div>
+          </div>
+          <div class="chart-panel">
+            <div id="yearChart"></div>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
 
   <script>
     let floodData = [];
+    let currentData = [];
+    let predictionPoint = null;
+
+    const plotConfig = {
+      responsive: true,
+      displaylogo: false,
+      modeBarButtonsToRemove: ["lasso2d", "select2d"]
+    };
+
+    const riskOrder = ["High", "Medium", "Low"];
+    const riskColors = {
+      High: "#c2410c",
+      Medium: "#b7791f",
+      Low: "#16803c",
+      Unknown: "#667085"
+    };
+
+    const modelLimits = {
+      deaths: 210,
+      damage: 205000,
+      people: 1200000,
+      cropland: 1000000
+    };
 
     function normalizeRisk(value) {
       if (!value) return "Unknown";
@@ -80,14 +704,25 @@
       if (risk === "high") return "High";
       if (risk === "medium" || risk === "moderate") return "Medium";
       if (risk === "low") return "Low";
-      return String(value);
+      return "Unknown";
     }
 
-    function getColor(risk) {
-      if (risk === "High") return "red";
-      if (risk === "Medium") return "orange";
-      if (risk === "Low") return "green";
-      return "gray";
+    function getRiskClass(risk) {
+      const value = normalizeRisk(risk).toLowerCase();
+      return value === "unknown" ? "waiting" : value;
+    }
+
+    function formatNumber(value) {
+      return new Intl.NumberFormat("en-US").format(value || 0);
+    }
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function safeNumber(value) {
+      const parsed = Number(value);
+      return Number.isFinite(parsed) ? parsed : 0;
     }
 
     function showError(message) {
@@ -96,16 +731,62 @@
       errorBox.innerHTML = message;
     }
 
+    function hideError() {
+      const errorBox = document.getElementById("errorBox");
+      errorBox.style.display = "none";
+      errorBox.innerHTML = "";
+    }
+
+    function countByRisk(data) {
+      return {
+        High: data.filter(row => row.flood_risk === "High").length,
+        Medium: data.filter(row => row.flood_risk === "Medium").length,
+        Low: data.filter(row => row.flood_risk === "Low").length
+      };
+    }
+
+    function updateHeader(data) {
+      const years = new Set(data.map(row => row.year).filter(Boolean));
+      document.getElementById("headerRecords").innerText = `${formatNumber(data.length)} records`;
+      document.getElementById("headerYears").innerText = `${formatNumber(years.size)} years`;
+    }
+
     function updateMetrics(data) {
-      document.getElementById("totalRecords").innerText = data.length;
-      document.getElementById("highRecords").innerText = data.filter(row => row.flood_risk === "High").length;
-      document.getElementById("mediumRecords").innerText = data.filter(row => row.flood_risk === "Medium").length;
-      document.getElementById("lowRecords").innerText = data.filter(row => row.flood_risk === "Low").length;
+      const counts = countByRisk(data);
+      const highShare = data.length ? Math.round((counts.High / data.length) * 100) : 0;
+
+      document.getElementById("totalRecords").innerText = formatNumber(data.length);
+      document.getElementById("highRecords").innerText = formatNumber(counts.High);
+      document.getElementById("mediumRecords").innerText = formatNumber(counts.Medium);
+      document.getElementById("lowRecords").innerText = formatNumber(counts.Low);
+      document.getElementById("highShare").innerText = `${highShare}% of visible records`;
+      document.getElementById("recordFoot").innerText = data.length === floodData.length ? "Full dataset" : "Filtered dataset";
+    }
+
+    function updateInsights(data) {
+      const counts = countByRisk(data);
+      const dominant = Object.entries(counts).sort((a, b) => b[1] - a[1])[0];
+      const years = data.map(row => Number(row.year)).filter(Number.isFinite).sort((a, b) => a - b);
+      const locations = new Set(data.map(row => `${row.latitude},${row.longitude}`));
+
+      document.getElementById("dominantRisk").innerText = dominant && dominant[1] > 0
+        ? `${dominant[0]} (${dominant[1]} records)`
+        : "No data";
+
+      document.getElementById("yearRange").innerText = years.length
+        ? `${years[0]} to ${years[years.length - 1]}`
+        : "No data";
+
+      document.getElementById("locationCount").innerText = data.length
+        ? `${locations.size} mapped points`
+        : "No data";
     }
 
     function populateYearFilter(data) {
       const yearFilter = document.getElementById("yearFilter");
-      const years = [...new Set(data.map(row => row.year).filter(Boolean))].sort();
+      yearFilter.innerHTML = '<option value="All">All Years</option>';
+
+      const years = [...new Set(data.map(row => row.year).filter(Boolean))].sort((a, b) => Number(a) - Number(b));
       years.forEach(year => {
         const option = document.createElement("option");
         option.value = year;
@@ -114,102 +795,161 @@
       });
     }
 
+    function getHoverText(row) {
+      const parts = [
+        `Risk: ${row.flood_risk}`,
+        `Year: ${row.year ?? "N/A"}`,
+        `Latitude: ${row.latitude}`,
+        `Longitude: ${row.longitude}`
+      ];
+
+      if (row.district) parts.splice(1, 0, `District: ${row.district}`);
+      if (row.province) parts.splice(1, 0, `Province: ${row.province}`);
+      return parts.join("<br>");
+    }
+
     function drawMap(data) {
       const cleanData = data.filter(row =>
-        row.latitude !== null && row.longitude !== null &&
-        row.latitude !== undefined && row.longitude !== undefined &&
-        !isNaN(Number(row.latitude)) && !isNaN(Number(row.longitude))
+        Number.isFinite(Number(row.latitude)) &&
+        Number.isFinite(Number(row.longitude))
       );
 
-      const trace = {
-        type: "scattergeo",
-        mode: "markers",
-        lat: cleanData.map(row => Number(row.latitude)),
-        lon: cleanData.map(row => Number(row.longitude)),
-        text: cleanData.map(row =>
-          `Risk: ${row.flood_risk}<br>Year: ${row.year ?? "N/A"}<br>Latitude: ${row.latitude}<br>Longitude: ${row.longitude}`
-        ),
-        marker: {
-          size: 8,
-          color: cleanData.map(row => getColor(row.flood_risk)),
-          opacity: 0.75,
-          line: { width: 0.5, color: "white" }
-        }
-      };
+      const traces = riskOrder.map(risk => {
+        const rows = cleanData.filter(row => row.flood_risk === risk);
+        return {
+          type: "scattergeo",
+          mode: "markers",
+          name: risk,
+          lat: rows.map(row => Number(row.latitude)),
+          lon: rows.map(row => Number(row.longitude)),
+          text: rows.map(getHoverText),
+          hovertemplate: "%{text}<extra></extra>",
+          marker: {
+            size: risk === "High" ? 12 : risk === "Medium" ? 10 : 8,
+            color: riskColors[risk],
+            opacity: 0.82,
+            line: { width: 1, color: "#ffffff" }
+          }
+        };
+      });
+
+      if (predictionPoint) {
+        traces.push({
+          type: "scattergeo",
+          mode: "markers",
+          name: "Prediction",
+          lat: [predictionPoint.latitude],
+          lon: [predictionPoint.longitude],
+          text: [
+            `Predicted Risk: ${predictionPoint.risk}<br>` +
+            `Score: ${predictionPoint.score}/100<br>` +
+            `Year: ${predictionPoint.year}<br>` +
+            `Latitude: ${predictionPoint.latitude}<br>` +
+            `Longitude: ${predictionPoint.longitude}`
+          ],
+          hovertemplate: "%{text}<extra></extra>",
+          marker: {
+            size: 18,
+            symbol: "diamond",
+            color: riskColors[predictionPoint.risk] || "#2563eb",
+            opacity: 0.95,
+            line: { width: 2, color: "#101828" }
+          }
+        });
+      }
 
       const layout = {
-        title: "Geospatial Flood Risk Map - Pakistan",
+        title: {
+          text: "Geospatial Flood Risk Map - Pakistan",
+          font: { size: 18, color: "#101828" }
+        },
+        paper_bgcolor: "#ffffff",
+        plot_bgcolor: "#ffffff",
         geo: {
           scope: "asia",
           projection: { type: "natural earth" },
           showland: true,
-          landcolor: "rgb(230,230,230)",
-          countrycolor: "rgb(180,180,180)",
+          landcolor: "#edf2f7",
+          showocean: true,
+          oceancolor: "#d7ecf5",
+          countrycolor: "#98a2b3",
           showcountries: true,
           lataxis: { range: [23, 38] },
           lonaxis: { range: [60, 78] }
         },
-        margin: { t: 50, b: 20 }
+        legend: {
+          orientation: "h",
+          x: 0,
+          y: 1.05
+        },
+        margin: { t: 66, r: 16, b: 10, l: 16 }
       };
 
-      Plotly.newPlot("mapChart", [trace], layout, { responsive: true });
+      Plotly.newPlot("mapChart", traces, layout, plotConfig);
     }
 
     function drawRiskChart(data) {
-      const counts = {
-        Low: data.filter(row => row.flood_risk === "Low").length,
-        Medium: data.filter(row => row.flood_risk === "Medium").length,
-        High: data.filter(row => row.flood_risk === "High").length
-      };
+      const counts = countByRisk(data);
+      const labels = ["High", "Medium", "Low"];
+      const values = labels.map(risk => counts[risk]);
 
       Plotly.newPlot("riskChart", [{
-        x: Object.keys(counts),
-        y: Object.values(counts),
-        type: "bar",
-        marker: { color: ["green", "orange", "red"] }
+        labels,
+        values,
+        type: "pie",
+        hole: 0.58,
+        sort: false,
+        marker: { colors: labels.map(risk => riskColors[risk]) },
+        textinfo: "label+value",
+        hovertemplate: "%{label}: %{value} records<extra></extra>"
       }], {
-        title: "Flood Risk Distribution",
-        xaxis: { title: "Risk Level" },
-        yaxis: { title: "Number of Records" },
-        margin: { t: 50 }
-      }, { responsive: true });
+        title: { text: "Risk Distribution", font: { size: 17 } },
+        paper_bgcolor: "#ffffff",
+        margin: { t: 52, r: 12, b: 12, l: 12 },
+        showlegend: false
+      }, plotConfig);
     }
 
     function drawYearChart(data) {
-      const yearCounts = {};
-      data.forEach(row => {
-        if (row.year !== undefined && row.year !== null && row.year !== "") {
-          yearCounts[row.year] = (yearCounts[row.year] || 0) + 1;
-        }
-      });
+      const years = [...new Set(data.map(row => row.year).filter(Boolean))].sort((a, b) => Number(a) - Number(b));
 
-      const years = Object.keys(yearCounts).sort();
-
-      Plotly.newPlot("yearChart", [{
+      const traces = riskOrder.map(risk => ({
         x: years,
-        y: years.map(year => yearCounts[year]),
-        type: "scatter",
-        mode: "lines+markers"
-      }], {
-        title: "Flood Records Over Time",
-        xaxis: { title: "Year" },
-        yaxis: { title: "Number of Records" },
-        margin: { t: 50 }
-      }, { responsive: true });
+        y: years.map(year => data.filter(row => String(row.year) === String(year) && row.flood_risk === risk).length),
+        name: risk,
+        type: "bar",
+        marker: { color: riskColors[risk] },
+        hovertemplate: `${risk}: %{y} records<extra></extra>`
+      }));
+
+      Plotly.newPlot("yearChart", traces, {
+        title: { text: "Records Over Time", font: { size: 17 } },
+        paper_bgcolor: "#ffffff",
+        plot_bgcolor: "#ffffff",
+        barmode: "stack",
+        xaxis: { title: "Year", gridcolor: "#edf2f7" },
+        yaxis: { title: "Records", gridcolor: "#edf2f7", rangemode: "tozero" },
+        legend: { orientation: "h", x: 0, y: 1.08 },
+        margin: { t: 64, r: 16, b: 50, l: 52 }
+      }, plotConfig);
     }
 
     function renderDashboard(data) {
+      currentData = data;
+      updateHeader(floodData);
       updateMetrics(data);
+      updateInsights(data);
       drawMap(data);
       drawRiskChart(data);
       drawYearChart(data);
     }
 
-    function applyFilters() {
+    function getFilteredData() {
       const selectedYear = document.getElementById("yearFilter").value;
       const selectedRisk = document.getElementById("riskFilter").value;
+      const selectedSort = document.getElementById("sortFilter").value;
 
-      let filteredData = floodData;
+      let filteredData = [...floodData];
 
       if (selectedYear !== "All") {
         filteredData = filteredData.filter(row => String(row.year) === String(selectedYear));
@@ -219,8 +959,173 @@
         filteredData = filteredData.filter(row => row.flood_risk === selectedRisk);
       }
 
-      renderDashboard(filteredData);
+      if (selectedSort === "Recent") {
+        filteredData.sort((a, b) => Number(b.year || 0) - Number(a.year || 0));
+      }
+
+      if (selectedSort === "HighFirst") {
+        const rank = { High: 3, Medium: 2, Low: 1, Unknown: 0 };
+        filteredData.sort((a, b) => rank[b.flood_risk] - rank[a.flood_risk]);
+      }
+
+      return filteredData;
     }
+
+    function applyFilters() {
+      renderDashboard(getFilteredData());
+    }
+
+    function resetFilters() {
+      document.getElementById("yearFilter").value = "All";
+      document.getElementById("riskFilter").value = "All";
+      document.getElementById("sortFilter").value = "All";
+      renderDashboard(floodData);
+    }
+
+    function getNearestHistoricalRisk(latitude, longitude) {
+      if (!floodData.length) {
+        return { risk: "Unknown", distance: null, adjustment: 0 };
+      }
+
+      let nearest = null;
+      floodData.forEach(row => {
+        const rowLat = Number(row.latitude);
+        const rowLon = Number(row.longitude);
+        if (!Number.isFinite(rowLat) || !Number.isFinite(rowLon)) return;
+
+        const distance = Math.sqrt(
+          Math.pow(rowLat - latitude, 2) +
+          Math.pow(rowLon - longitude, 2)
+        );
+
+        if (!nearest || distance < nearest.distance) {
+          nearest = { risk: row.flood_risk, distance };
+        }
+      });
+
+      if (!nearest || nearest.distance > 1.75) {
+        return { risk: "Unknown", distance: nearest ? nearest.distance : null, adjustment: 0 };
+      }
+
+      const adjustment = nearest.risk === "High" ? 8 : nearest.risk === "Medium" ? 4 : 0;
+      return { ...nearest, adjustment };
+    }
+
+    function estimateRisk(values) {
+      const damage = values.housesDestroyed + values.housesDamaged;
+      const locationContext = getNearestHistoricalRisk(values.latitude, values.longitude);
+
+      const damageScore = clamp(damage / modelLimits.damage, 0, 1) * 40;
+      const peopleScore = clamp(values.peopleAffected / modelLimits.people, 0, 1) * 25;
+      const croplandScore = clamp(values.croplandAcres / modelLimits.cropland, 0, 1) * 20;
+      const deathsScore = clamp(values.deaths / modelLimits.deaths, 0, 1) * 15;
+
+      const rawScore = damageScore + peopleScore + croplandScore + deathsScore + locationContext.adjustment;
+      const score = Math.round(clamp(rawScore, 0, 100));
+      const risk = score >= 67 ? "High" : score >= 38 ? "Medium" : "Low";
+
+      const drivers = [
+        { label: "Housing damage", value: damageScore },
+        { label: "People affected", value: peopleScore },
+        { label: "Cropland exposure", value: croplandScore },
+        { label: "Deaths", value: deathsScore },
+        { label: "Location history", value: locationContext.adjustment }
+      ].sort((a, b) => b.value - a.value);
+
+      return {
+        risk,
+        score,
+        damage,
+        drivers,
+        locationContext
+      };
+    }
+
+    function getPredictionMessage(risk, score) {
+      if (risk === "High") {
+        return `High warning signal. The estimated score is ${score}/100, so emergency planning, evacuation readiness, and relief resource prioritization should be considered.`;
+      }
+
+      if (risk === "Medium") {
+        return `Moderate warning signal. The estimated score is ${score}/100, so monitoring and district-level preparedness should be increased.`;
+      }
+
+      return `Lower warning signal. The estimated score is ${score}/100, but rainfall and river conditions should still be monitored.`;
+    }
+
+    function updatePredictionUI(values, result) {
+      const badge = document.getElementById("predictionBadge");
+      const score = document.getElementById("predictionScore");
+      const fill = document.getElementById("scoreFill");
+      const message = document.getElementById("predictionMessage");
+      const driverList = document.getElementById("driverList");
+
+      badge.className = `risk-badge ${getRiskClass(result.risk)}`;
+      badge.innerText = result.risk;
+      score.innerText = `Score ${result.score}/100`;
+      fill.style.width = `${result.score}%`;
+      fill.style.background = riskColors[result.risk] || "#0f766e";
+      message.innerText = getPredictionMessage(result.risk, result.score);
+
+      driverList.innerHTML = "";
+      result.drivers.slice(0, 4).forEach(driver => {
+        const chip = document.createElement("span");
+        chip.className = "driver-chip";
+        chip.innerText = `${driver.label}: ${Math.round(driver.value)} pts`;
+        driverList.appendChild(chip);
+      });
+
+      if (result.locationContext.risk !== "Unknown") {
+        const chip = document.createElement("span");
+        chip.className = "driver-chip";
+        chip.innerText = `Nearest history: ${result.locationContext.risk}`;
+        driverList.appendChild(chip);
+      }
+
+      predictionPoint = {
+        year: values.year,
+        latitude: values.latitude,
+        longitude: values.longitude,
+        risk: result.risk,
+        score: result.score
+      };
+
+      drawMap(currentData.length ? currentData : floodData);
+    }
+
+    function clearPrediction() {
+      document.getElementById("predictionForm").reset();
+
+      const badge = document.getElementById("predictionBadge");
+      badge.className = "risk-badge waiting";
+      badge.innerText = "Awaiting Input";
+      document.getElementById("predictionScore").innerText = "Score 0/100";
+      document.getElementById("scoreFill").style.width = "0%";
+      document.getElementById("scoreFill").style.background = "var(--brand)";
+      document.getElementById("predictionMessage").innerText = "Prediction output will appear here.";
+      document.getElementById("driverList").innerHTML = "";
+
+      predictionPoint = null;
+      drawMap(currentData.length ? currentData : floodData);
+    }
+
+    document.getElementById("predictionForm").addEventListener("submit", event => {
+      event.preventDefault();
+
+      const values = {
+        year: safeNumber(document.getElementById("inputYear").value),
+        deaths: safeNumber(document.getElementById("inputDeaths").value),
+        latitude: safeNumber(document.getElementById("inputLatitude").value),
+        longitude: safeNumber(document.getElementById("inputLongitude").value),
+        housesDestroyed: safeNumber(document.getElementById("inputDestroyed").value),
+        housesDamaged: safeNumber(document.getElementById("inputDamaged").value),
+        peopleAffected: safeNumber(document.getElementById("inputPeople").value),
+        croplandAcres: safeNumber(document.getElementById("inputCropland").value)
+      };
+
+      const result = estimateRisk(values);
+      updatePredictionUI(values, result);
+    });
 
     fetch("flood_data.json")
       .then(response => {
@@ -228,8 +1133,10 @@
         return response.json();
       })
       .then(data => {
+        hideError();
         floodData = data.map(row => ({
           ...row,
+          year: row.year,
           latitude: Number(row.latitude),
           longitude: Number(row.longitude),
           flood_risk: normalizeRisk(row.flood_risk)
@@ -241,10 +1148,8 @@
       .catch(error => {
         showError(
           "Dashboard could not load <b>flood_data.json</b>.<br><br>" +
-          "Make sure <b>dashboard.html</b> and <b>flood_data.json</b> are in the same folder.<br>" +
-          "If opening directly does not work, run:<br><br>" +
-          "<code>python -m http.server 8000</code><br><br>" +
-          "Then open: <code>http://localhost:8000/dashboard.html</code>"
+          "Run <code>python -m http.server 8000</code> from the project folder, then open " +
+          "<code>http://localhost:8000/dashboard.html</code>."
         );
         console.error(error);
       });
