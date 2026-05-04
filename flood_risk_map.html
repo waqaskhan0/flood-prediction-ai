@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_a6ac31a3bbf5718198e47487c1d3396c {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+<div style="position: fixed; 
+     bottom: 50px; left: 50px; width: 150px; height: 120px; 
+     background-color: white; z-index:9999; font-size:14px;
+     border:2px solid grey; padding: 10px;">
+<b>Flood Risk</b><br>
+<i style="color:green;">●</i> Low<br>
+<i style="color:orange;">●</i> Medium<br>
+<i style="color:red;">●</i> High
+</div>
+    
+            <div class="folium-map" id="map_a6ac31a3bbf5718198e47487c1d3396c" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_a6ac31a3bbf5718198e47487c1d3396c = L.map(
+                "map_a6ac31a3bbf5718198e47487c1d3396c",
+                {
+                    center: [30.3753, 69.3451],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 5,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_6276fbdfe22e5a24e5a5911b55dd6aa3 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_6276fbdfe22e5a24e5a5911b55dd6aa3.addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+            var circle_marker_3e7e075bfdd64308cecedb32446444cb = L.circleMarker(
+                [34.015, 71.9844],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_9baf163936b37e82f5c7cb31d199a851 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d554607573f16c055535753ce0ab1c16 = $(`<div id="html_d554607573f16c055535753ce0ab1c16" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> High<br><b>Deaths:</b> 120<br><b>People Affected:</b> 850000<br><b>Year:</b> 2010</div>`)[0];
+                popup_9baf163936b37e82f5c7cb31d199a851.setContent(html_d554607573f16c055535753ce0ab1c16);
+            
+        
+
+        circle_marker_3e7e075bfdd64308cecedb32446444cb.bindPopup(popup_9baf163936b37e82f5c7cb31d199a851)
+        ;
+
+        
+    
+    
+            circle_marker_3e7e075bfdd64308cecedb32446444cb.bindTooltip(
+                `<div>
+                     17 (2)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0d7db3faa14f5b4fddb8f3e4c4890d44 = L.circleMarker(
+                [34.1482, 71.7307],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_7cba5dcdc7a5e85450e1dcccc879f1d1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ed9d2c6b25b50018e3fc99f64cef2e98 = $(`<div id="html_ed9d2c6b25b50018e3fc99f64cef2e98" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> Medium<br><b>Deaths:</b> 95<br><b>People Affected:</b> 720000<br><b>Year:</b> 2010</div>`)[0];
+                popup_7cba5dcdc7a5e85450e1dcccc879f1d1.setContent(html_ed9d2c6b25b50018e3fc99f64cef2e98);
+            
+        
+
+        circle_marker_0d7db3faa14f5b4fddb8f3e4c4890d44.bindPopup(popup_7cba5dcdc7a5e85450e1dcccc879f1d1)
+        ;
+
+        
+    
+    
+            circle_marker_0d7db3faa14f5b4fddb8f3e4c4890d44.bindTooltip(
+                `<div>
+                     3 (2)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2cb916301087e54e87bf9ada82e18959 = L.circleMarker(
+                [35.2227, 72.4258],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_cc43693616de636951e0768e2c757fff = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_bb85e60e6345d811125fb98b658e642b = $(`<div id="html_bb85e60e6345d811125fb98b658e642b" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> High<br><b>Deaths:</b> 210<br><b>People Affected:</b> 1100000<br><b>Year:</b> 2010</div>`)[0];
+                popup_cc43693616de636951e0768e2c757fff.setContent(html_bb85e60e6345d811125fb98b658e642b);
+            
+        
+
+        circle_marker_2cb916301087e54e87bf9ada82e18959.bindPopup(popup_cc43693616de636951e0768e2c757fff)
+        ;
+
+        
+    
+    
+            circle_marker_2cb916301087e54e87bf9ada82e18959.bindTooltip(
+                `<div>
+                     20 (2)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_eb50549e7e0798222e084f7c9619423a = L.circleMarker(
+                [30.0704, 71.193],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_75116b88ab06808d8e99f1160c94b435 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_14e9478eddda961e57f9b9bfe5549a53 = $(`<div id="html_14e9478eddda961e57f9b9bfe5549a53" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> Medium<br><b>Deaths:</b> 45<br><b>People Affected:</b> 600000<br><b>Year:</b> 2010</div>`)[0];
+                popup_75116b88ab06808d8e99f1160c94b435.setContent(html_14e9478eddda961e57f9b9bfe5549a53);
+            
+        
+
+        circle_marker_eb50549e7e0798222e084f7c9619423a.bindPopup(popup_75116b88ab06808d8e99f1160c94b435)
+        ;
+
+        
+    
+    
+            circle_marker_eb50549e7e0798222e084f7c9619423a.bindTooltip(
+                `<div>
+                     15 (3)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0087e46b335d9b079b336f59a9f37862 = L.circleMarker(
+                [29.1044, 70.3297],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_82e678de059293a272f06ab4fbe9e28c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_3723d35b8376656ecb027ab2af60ed1f = $(`<div id="html_3723d35b8376656ecb027ab2af60ed1f" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> Medium<br><b>Deaths:</b> 38<br><b>People Affected:</b> 520000<br><b>Year:</b> 2010</div>`)[0];
+                popup_82e678de059293a272f06ab4fbe9e28c.setContent(html_3723d35b8376656ecb027ab2af60ed1f);
+            
+        
+
+        circle_marker_0087e46b335d9b079b336f59a9f37862.bindPopup(popup_82e678de059293a272f06ab4fbe9e28c)
+        ;
+
+        
+    
+    
+            circle_marker_0087e46b335d9b079b336f59a9f37862.bindTooltip(
+                `<div>
+                     18 (3)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_de75381e3e02b80d6b6a1863fb83b68a = L.circleMarker(
+                [28.282, 68.4375],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_2d3d2283fb5f6d14ce4c74f8cbd9b106 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7a8370a4486e719aee1816f060be3bc4 = $(`<div id="html_7a8370a4486e719aee1816f060be3bc4" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> Medium<br><b>Deaths:</b> 30<br><b>People Affected:</b> 400000<br><b>Year:</b> 2010</div>`)[0];
+                popup_2d3d2283fb5f6d14ce4c74f8cbd9b106.setContent(html_7a8370a4486e719aee1816f060be3bc4);
+            
+        
+
+        circle_marker_de75381e3e02b80d6b6a1863fb83b68a.bindPopup(popup_2d3d2283fb5f6d14ce4c74f8cbd9b106)
+        ;
+
+        
+    
+    
+            circle_marker_de75381e3e02b80d6b6a1863fb83b68a.bindTooltip(
+                `<div>
+                     7 (4)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_3507c750a41dfd9237ada9116d1f45b7 = L.circleMarker(
+                [27.7052, 68.8574],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_8b99abe8a67c4333cd57fb123b1b0982 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0b0661e41c33122a7b3f2061192c8222 = $(`<div id="html_0b0661e41c33122a7b3f2061192c8222" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> Low<br><b>Deaths:</b> 18<br><b>People Affected:</b> 300000<br><b>Year:</b> 2010</div>`)[0];
+                popup_8b99abe8a67c4333cd57fb123b1b0982.setContent(html_0b0661e41c33122a7b3f2061192c8222);
+            
+        
+
+        circle_marker_3507c750a41dfd9237ada9116d1f45b7.bindPopup(popup_8b99abe8a67c4333cd57fb123b1b0982)
+        ;
+
+        
+    
+    
+            circle_marker_3507c750a41dfd9237ada9116d1f45b7.bindTooltip(
+                `<div>
+                     19 (4)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b4b8fc77948f472abf03f3e716e534b9 = L.circleMarker(
+                [29.463, 67.9218],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_df543d585ca09b58bf01f8f26784fc88 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e76080f11cc9f28e081cb5b69b2c6a18 = $(`<div id="html_e76080f11cc9f28e081cb5b69b2c6a18" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> Medium<br><b>Deaths:</b> 22<br><b>People Affected:</b> 280000<br><b>Year:</b> 2010</div>`)[0];
+                popup_df543d585ca09b58bf01f8f26784fc88.setContent(html_e76080f11cc9f28e081cb5b69b2c6a18);
+            
+        
+
+        circle_marker_b4b8fc77948f472abf03f3e716e534b9.bindPopup(popup_df543d585ca09b58bf01f8f26784fc88)
+        ;
+
+        
+    
+    
+            circle_marker_b4b8fc77948f472abf03f3e716e534b9.bindTooltip(
+                `<div>
+                     8 (0)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e5745f09776bd15594848252852cd1d7 = L.circleMarker(
+                [27.557, 68.212],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_355c135d5c6cd53b310aea128c37ae6c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7f34300edc3609b4881f7dcd0ca7862f = $(`<div id="html_7f34300edc3609b4881f7dcd0ca7862f" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> High<br><b>Deaths:</b> 58<br><b>People Affected:</b> 900000<br><b>Year:</b> 2011</div>`)[0];
+                popup_355c135d5c6cd53b310aea128c37ae6c.setContent(html_7f34300edc3609b4881f7dcd0ca7862f);
+            
+        
+
+        circle_marker_e5745f09776bd15594848252852cd1d7.bindPopup(popup_355c135d5c6cd53b310aea128c37ae6c)
+        ;
+
+        
+    
+    
+            circle_marker_e5745f09776bd15594848252852cd1d7.bindTooltip(
+                `<div>
+                     12 (4)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_bbe2b6655e52c28d693109112a09527a = L.circleMarker(
+                [26.7315, 67.7751],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_00d08aa73be4f2a58813e4a8b505ae9d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_015e9e13435b85ad90278c032f0049ff = $(`<div id="html_015e9e13435b85ad90278c032f0049ff" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> High<br><b>Deaths:</b> 42<br><b>People Affected:</b> 700000<br><b>Year:</b> 2011</div>`)[0];
+                popup_00d08aa73be4f2a58813e4a8b505ae9d.setContent(html_015e9e13435b85ad90278c032f0049ff);
+            
+        
+
+        circle_marker_bbe2b6655e52c28d693109112a09527a.bindPopup(popup_00d08aa73be4f2a58813e4a8b505ae9d)
+        ;
+
+        
+    
+    
+            circle_marker_bbe2b6655e52c28d693109112a09527a.bindTooltip(
+                `<div>
+                     4 (4)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_bfd8bd1d0ae0adab97b68076089851cc = L.circleMarker(
+                [25.396, 68.3578],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_083be9981b43c6015832eff6bec8ea42 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a035e804b330d22f8f6a814df9abdedb = $(`<div id="html_a035e804b330d22f8f6a814df9abdedb" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> High<br><b>Deaths:</b> 35<br><b>People Affected:</b> 600000<br><b>Year:</b> 2011</div>`)[0];
+                popup_083be9981b43c6015832eff6bec8ea42.setContent(html_a035e804b330d22f8f6a814df9abdedb);
+            
+        
+
+        circle_marker_bfd8bd1d0ae0adab97b68076089851cc.bindPopup(popup_083be9981b43c6015832eff6bec8ea42)
+        ;
+
+        
+    
+    
+            circle_marker_bfd8bd1d0ae0adab97b68076089851cc.bindTooltip(
+                `<div>
+                     6 (4)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_3fe33d14e50bb7cf2ce72ae4663c50a1 = L.circleMarker(
+                [28.2758, 67.4544],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_1792e5205a599c43001923c13cb91db5 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8f9259f069ac48e69adad09ff6377a79 = $(`<div id="html_8f9259f069ac48e69adad09ff6377a79" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> Medium<br><b>Deaths:</b> 40<br><b>People Affected:</b> 250000<br><b>Year:</b> 2011</div>`)[0];
+                popup_1792e5205a599c43001923c13cb91db5.setContent(html_8f9259f069ac48e69adad09ff6377a79);
+            
+        
+
+        circle_marker_3fe33d14e50bb7cf2ce72ae4663c50a1.bindPopup(popup_1792e5205a599c43001923c13cb91db5)
+        ;
+
+        
+    
+    
+            circle_marker_3fe33d14e50bb7cf2ce72ae4663c50a1.bindTooltip(
+                `<div>
+                     9 (0)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b2b5f158ab172f64873cd41da75f5f9a = L.circleMarker(
+                [26.7315, 67.7751],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_f7e212b2820a918cf457cad7fd33d9ea = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c3f725192ab9efaa8edf08a7fa8e6238 = $(`<div id="html_c3f725192ab9efaa8edf08a7fa8e6238" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> High<br><b>Deaths:</b> 95<br><b>People Affected:</b> 1200000<br><b>Year:</b> 2022</div>`)[0];
+                popup_f7e212b2820a918cf457cad7fd33d9ea.setContent(html_c3f725192ab9efaa8edf08a7fa8e6238);
+            
+        
+
+        circle_marker_b2b5f158ab172f64873cd41da75f5f9a.bindPopup(popup_f7e212b2820a918cf457cad7fd33d9ea)
+        ;
+
+        
+    
+    
+            circle_marker_b2b5f158ab172f64873cd41da75f5f9a.bindTooltip(
+                `<div>
+                     4 (4)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b5ede7cbb93260cc6ac655edb80d196a = L.circleMarker(
+                [28.282, 68.4375],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_e9bb881a9b1b725de4ce0da428115ed7 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d8a4725e3899db9224a9b57b2e6bf4b1 = $(`<div id="html_d8a4725e3899db9224a9b57b2e6bf4b1" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> High<br><b>Deaths:</b> 19<br><b>People Affected:</b> 500000<br><b>Year:</b> 2022</div>`)[0];
+                popup_e9bb881a9b1b725de4ce0da428115ed7.setContent(html_d8a4725e3899db9224a9b57b2e6bf4b1);
+            
+        
+
+        circle_marker_b5ede7cbb93260cc6ac655edb80d196a.bindPopup(popup_e9bb881a9b1b725de4ce0da428115ed7)
+        ;
+
+        
+    
+    
+            circle_marker_b5ede7cbb93260cc6ac655edb80d196a.bindTooltip(
+                `<div>
+                     7 (4)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_fcfa716e007e418f1f56c7509db24f5c = L.circleMarker(
+                [27.7052, 68.8574],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_a4f4d7878d7467f0f179baa32a3915ae = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e8df5df578ed8cf1756da3b077bd3b85 = $(`<div id="html_e8df5df578ed8cf1756da3b077bd3b85" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> High<br><b>Deaths:</b> 38<br><b>People Affected:</b> 650000<br><b>Year:</b> 2022</div>`)[0];
+                popup_a4f4d7878d7467f0f179baa32a3915ae.setContent(html_e8df5df578ed8cf1756da3b077bd3b85);
+            
+        
+
+        circle_marker_fcfa716e007e418f1f56c7509db24f5c.bindPopup(popup_a4f4d7878d7467f0f179baa32a3915ae)
+        ;
+
+        
+    
+    
+            circle_marker_fcfa716e007e418f1f56c7509db24f5c.bindTooltip(
+                `<div>
+                     19 (4)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_5657310a2cfa7737265c675dcf3e555c = L.circleMarker(
+                [26.8425, 68.1155],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_0f75b49c4a5ff8718edb4ece91be4ca7 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_3286693b3344e3bba212c4538d2e6615 = $(`<div id="html_3286693b3344e3bba212c4538d2e6615" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> High<br><b>Deaths:</b> 30<br><b>People Affected:</b> 550000<br><b>Year:</b> 2022</div>`)[0];
+                popup_0f75b49c4a5ff8718edb4ece91be4ca7.setContent(html_3286693b3344e3bba212c4538d2e6615);
+            
+        
+
+        circle_marker_5657310a2cfa7737265c675dcf3e555c.bindPopup(popup_0f75b49c4a5ff8718edb4ece91be4ca7)
+        ;
+
+        
+    
+    
+            circle_marker_5657310a2cfa7737265c675dcf3e555c.bindTooltip(
+                `<div>
+                     16 (4)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0934f90475713d372072651f6733c463 = L.circleMarker(
+                [27.5319, 68.7588],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_3e3d347730fdb6dd8e9aa989995fb139 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2050b3417b4104fc21c63ac16f610b54 = $(`<div id="html_2050b3417b4104fc21c63ac16f610b54" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> High<br><b>Deaths:</b> 28<br><b>People Affected:</b> 520000<br><b>Year:</b> 2022</div>`)[0];
+                popup_3e3d347730fdb6dd8e9aa989995fb139.setContent(html_2050b3417b4104fc21c63ac16f610b54);
+            
+        
+
+        circle_marker_0934f90475713d372072651f6733c463.bindPopup(popup_3e3d347730fdb6dd8e9aa989995fb139)
+        ;
+
+        
+    
+    
+            circle_marker_0934f90475713d372072651f6733c463.bindTooltip(
+                `<div>
+                     10 (4)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d456328fb34a462d9d6186278d51257e = L.circleMarker(
+                [26.2063, 65.31],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_7773f4d45a45cb1386633a67af7b2952 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_07ae6afbb9275579102e79da3829bb77 = $(`<div id="html_07ae6afbb9275579102e79da3829bb77" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> Medium<br><b>Deaths:</b> 65<br><b>People Affected:</b> 320000<br><b>Year:</b> 2022</div>`)[0];
+                popup_7773f4d45a45cb1386633a67af7b2952.setContent(html_07ae6afbb9275579102e79da3829bb77);
+            
+        
+
+        circle_marker_d456328fb34a462d9d6186278d51257e.bindPopup(popup_7773f4d45a45cb1386633a67af7b2952)
+        ;
+
+        
+    
+    
+            circle_marker_d456328fb34a462d9d6186278d51257e.bindTooltip(
+                `<div>
+                     13 (0)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d8fb7f71fa4678082ae11c9b2e05d789 = L.circleMarker(
+                [27.8002, 66.6091],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_94ffcba3e822c98b5343221977a71e29 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ad34c88b3ec1084aa25703d732ff8741 = $(`<div id="html_ad34c88b3ec1084aa25703d732ff8741" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> Medium<br><b>Deaths:</b> 42<br><b>People Affected:</b> 240000<br><b>Year:</b> 2022</div>`)[0];
+                popup_94ffcba3e822c98b5343221977a71e29.setContent(html_ad34c88b3ec1084aa25703d732ff8741);
+            
+        
+
+        circle_marker_d8fb7f71fa4678082ae11c9b2e05d789.bindPopup(popup_94ffcba3e822c98b5343221977a71e29)
+        ;
+
+        
+    
+    
+            circle_marker_d8fb7f71fa4678082ae11c9b2e05d789.bindTooltip(
+                `<div>
+                     11 (0)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e848ee51bf072994f65602b5711d630c = L.circleMarker(
+                [35.2227, 72.4258],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_a98760c202c82c9d35707e195336e69b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8735ed4a8e9a21484bc65c089fdecbfc = $(`<div id="html_8735ed4a8e9a21484bc65c089fdecbfc" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> Medium<br><b>Deaths:</b> 55<br><b>People Affected:</b> 400000<br><b>Year:</b> 2022</div>`)[0];
+                popup_a98760c202c82c9d35707e195336e69b.setContent(html_8735ed4a8e9a21484bc65c089fdecbfc);
+            
+        
+
+        circle_marker_e848ee51bf072994f65602b5711d630c.bindPopup(popup_a98760c202c82c9d35707e195336e69b)
+        ;
+
+        
+    
+    
+            circle_marker_e848ee51bf072994f65602b5711d630c.bindTooltip(
+                `<div>
+                     20 (2)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2123bcd6d4f7a584c52499b6aaeefc09 = L.circleMarker(
+                [31.8314, 70.9016],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_3e4fb2a94afb33d250e9069fd9940d51 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1b82ee25c0c8e10c85d4797653da8ce6 = $(`<div id="html_1b82ee25c0c8e10c85d4797653da8ce6" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> Medium<br><b>Deaths:</b> 12<br><b>People Affected:</b> 280000<br><b>Year:</b> 2022</div>`)[0];
+                popup_3e4fb2a94afb33d250e9069fd9940d51.setContent(html_1b82ee25c0c8e10c85d4797653da8ce6);
+            
+        
+
+        circle_marker_2123bcd6d4f7a584c52499b6aaeefc09.bindPopup(popup_3e4fb2a94afb33d250e9069fd9940d51)
+        ;
+
+        
+    
+    
+            circle_marker_2123bcd6d4f7a584c52499b6aaeefc09.bindTooltip(
+                `<div>
+                     5 (2)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0770128f30c016569baf44ed3a050b4d = L.circleMarker(
+                [29.1044, 70.3297],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_5da2bff135267e0cb3e83d67c5769d43 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_afc7f00d4e34b383f687bffb228c8035 = $(`<div id="html_afc7f00d4e34b383f687bffb228c8035" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> Low<br><b>Deaths:</b> 38<br><b>People Affected:</b> 180000<br><b>Year:</b> 2022</div>`)[0];
+                popup_5da2bff135267e0cb3e83d67c5769d43.setContent(html_afc7f00d4e34b383f687bffb228c8035);
+            
+        
+
+        circle_marker_0770128f30c016569baf44ed3a050b4d.bindPopup(popup_5da2bff135267e0cb3e83d67c5769d43)
+        ;
+
+        
+    
+    
+            circle_marker_0770128f30c016569baf44ed3a050b4d.bindTooltip(
+                `<div>
+                     18 (3)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4ba4fb7a68a18dc98f40c566767054ca = L.circleMarker(
+                [30.0704, 71.193],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_a9323c9e87be3a147795cfbf39aa13bd = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d3a7b1dcdca3ef1b414e5517e5cb6dd9 = $(`<div id="html_d3a7b1dcdca3ef1b414e5517e5cb6dd9" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> Low<br><b>Deaths:</b> 32<br><b>People Affected:</b> 160000<br><b>Year:</b> 2022</div>`)[0];
+                popup_a9323c9e87be3a147795cfbf39aa13bd.setContent(html_d3a7b1dcdca3ef1b414e5517e5cb6dd9);
+            
+        
+
+        circle_marker_4ba4fb7a68a18dc98f40c566767054ca.bindPopup(popup_a9323c9e87be3a147795cfbf39aa13bd)
+        ;
+
+        
+    
+    
+            circle_marker_4ba4fb7a68a18dc98f40c566767054ca.bindTooltip(
+                `<div>
+                     15 (3)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b819102b8981dfc46421358a2409a025 = L.circleMarker(
+                [34.558, 72.5021],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_e99dd299cbb8ee13882e13f0a66eefb1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4b5699d45c4be0188600eddb8d6b250d = $(`<div id="html_4b5699d45c4be0188600eddb8d6b250d" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> Low<br><b>Deaths:</b> 85<br><b>People Affected:</b> 280000<br><b>Year:</b> 2025</div>`)[0];
+                popup_e99dd299cbb8ee13882e13f0a66eefb1.setContent(html_4b5699d45c4be0188600eddb8d6b250d);
+            
+        
+
+        circle_marker_b819102b8981dfc46421358a2409a025.bindPopup(popup_e99dd299cbb8ee13882e13f0a66eefb1)
+        ;
+
+        
+    
+    
+            circle_marker_b819102b8981dfc46421358a2409a025.bindTooltip(
+                `<div>
+                     2 (2)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9aa97051ad69155afc94f83ba0431cb0 = L.circleMarker(
+                [35.2227, 72.4258],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_d743cba23de978cbe7d5588aeacdd75f = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b7449fa9439296664f53d60991665bf7 = $(`<div id="html_b7449fa9439296664f53d60991665bf7" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> Low<br><b>Deaths:</b> 65<br><b>People Affected:</b> 220000<br><b>Year:</b> 2025</div>`)[0];
+                popup_d743cba23de978cbe7d5588aeacdd75f.setContent(html_b7449fa9439296664f53d60991665bf7);
+            
+        
+
+        circle_marker_9aa97051ad69155afc94f83ba0431cb0.bindPopup(popup_d743cba23de978cbe7d5588aeacdd75f)
+        ;
+
+        
+    
+    
+            circle_marker_9aa97051ad69155afc94f83ba0431cb0.bindTooltip(
+                `<div>
+                     20 (2)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_96fa8c9deebc501fc6bf8e222c4f22cf = L.circleMarker(
+                [34.8453, 71.5024],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_1584e8f7a3621654a2e46602a70fe5bb = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_65274ae3d8476e4fbc791f67878a0969 = $(`<div id="html_65274ae3d8476e4fbc791f67878a0969" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> Low<br><b>Deaths:</b> 55<br><b>People Affected:</b> 190000<br><b>Year:</b> 2025</div>`)[0];
+                popup_1584e8f7a3621654a2e46602a70fe5bb.setContent(html_65274ae3d8476e4fbc791f67878a0969);
+            
+        
+
+        circle_marker_96fa8c9deebc501fc6bf8e222c4f22cf.bindPopup(popup_1584e8f7a3621654a2e46602a70fe5bb)
+        ;
+
+        
+    
+    
+            circle_marker_96fa8c9deebc501fc6bf8e222c4f22cf.bindTooltip(
+                `<div>
+                     1 (2)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_fbcbe70cbea219dd6902708cf5b28aec = L.circleMarker(
+                [30.0704, 71.193],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_d08f2b3e83e0bbfdbf1c76b2fbc60a3c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_986fb6ce85dc5e81fefe10150960c9f4 = $(`<div id="html_986fb6ce85dc5e81fefe10150960c9f4" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> Low<br><b>Deaths:</b> 42<br><b>People Affected:</b> 400000<br><b>Year:</b> 2025</div>`)[0];
+                popup_d08f2b3e83e0bbfdbf1c76b2fbc60a3c.setContent(html_986fb6ce85dc5e81fefe10150960c9f4);
+            
+        
+
+        circle_marker_fbcbe70cbea219dd6902708cf5b28aec.bindPopup(popup_d08f2b3e83e0bbfdbf1c76b2fbc60a3c)
+        ;
+
+        
+    
+    
+            circle_marker_fbcbe70cbea219dd6902708cf5b28aec.bindTooltip(
+                `<div>
+                     15 (3)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_3681975aa06a03d288c733dfe9f05a2b = L.circleMarker(
+                [29.1044, 70.3297],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_0c015b4093c009e9ae0ae4128fd35036 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9b5922cd21a8c7f83acc976b388ee221 = $(`<div id="html_9b5922cd21a8c7f83acc976b388ee221" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> Low<br><b>Deaths:</b> 38<br><b>People Affected:</b> 350000<br><b>Year:</b> 2025</div>`)[0];
+                popup_0c015b4093c009e9ae0ae4128fd35036.setContent(html_9b5922cd21a8c7f83acc976b388ee221);
+            
+        
+
+        circle_marker_3681975aa06a03d288c733dfe9f05a2b.bindPopup(popup_0c015b4093c009e9ae0ae4128fd35036)
+        ;
+
+        
+    
+    
+            circle_marker_3681975aa06a03d288c733dfe9f05a2b.bindTooltip(
+                `<div>
+                     18 (3)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_c9d2b12efc99d2f42e3c533f39c35835 = L.circleMarker(
+                [29.9868, 73.2525],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_6fb2baa5d082b66277ea4b817e964a1a = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f6d7fb8badf7b1bc94ed46234754c182 = $(`<div id="html_f6d7fb8badf7b1bc94ed46234754c182" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> Low<br><b>Deaths:</b> 28<br><b>People Affected:</b> 280000<br><b>Year:</b> 2025</div>`)[0];
+                popup_6fb2baa5d082b66277ea4b817e964a1a.setContent(html_f6d7fb8badf7b1bc94ed46234754c182);
+            
+        
+
+        circle_marker_c9d2b12efc99d2f42e3c533f39c35835.bindPopup(popup_6fb2baa5d082b66277ea4b817e964a1a)
+        ;
+
+        
+    
+    
+            circle_marker_c9d2b12efc99d2f42e3c533f39c35835.bindTooltip(
+                `<div>
+                     0 (3)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ffe25f261857ca0697c93ffc53e693a9 = L.circleMarker(
+                [36.0, 75.0],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+    
+        var popup_92b347074feedf7403899bfc14867ebc = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5f1b389803db46ed716b5e231af23c79 = $(`<div id="html_5f1b389803db46ed716b5e231af23c79" style="width: 100.0%; height: 100.0%;"><b>Risk:</b> Low<br><b>Deaths:</b> 41<br><b>People Affected:</b> 50000<br><b>Year:</b> 2025</div>`)[0];
+                popup_92b347074feedf7403899bfc14867ebc.setContent(html_5f1b389803db46ed716b5e231af23c79);
+            
+        
+
+        circle_marker_ffe25f261857ca0697c93ffc53e693a9.bindPopup(popup_92b347074feedf7403899bfc14867ebc)
+        ;
+
+        
+    
+    
+            circle_marker_ffe25f261857ca0697c93ffc53e693a9.bindTooltip(
+                `<div>
+                     14 (1)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            tile_layer_6276fbdfe22e5a24e5a5911b55dd6aa3.addTo(map_a6ac31a3bbf5718198e47487c1d3396c);
+        
+</script>
+</html>

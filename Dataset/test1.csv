@@ -1,0 +1,31 @@
+year,province,district,flood_event,deaths,houses_destroyed,houses_damaged,people_affected,cropland_acres,severity,flood_type,source,latitude,longitude
+2010,KPK,Nowshera,2010 Super Flood,120,45000,60000,850000,300000,Catastrophic,Riverine,World Bank PDNA 2010; PMC,34.015,71.9844
+2010,KPK,Charsadda,2010 Super Flood,95,38000,50000,720000,250000,Catastrophic,Riverine,World Bank PDNA 2010,34.1482,71.7307
+2010,KPK,Swat,2010 Super Flood,210,60000,75000,1100000,400000,Catastrophic,Flash Flood,World Bank PDNA 2010; PMC,35.2227,72.4258
+2010,Punjab,Muzaffargarh,2010 Super Flood,45,28000,40000,600000,500000,Severe,Riverine,World Bank PDNA 2010,30.0704,71.193
+2010,Punjab,Rajanpur,2010 Super Flood,38,22000,35000,520000,420000,Severe,Riverine,World Bank PDNA 2010,29.1044,70.3297
+2010,Sindh,Jacobabad,2010 Super Flood,30,15000,22000,400000,350000,Severe,Riverine,World Bank PDNA 2010,28.282,68.4375
+2010,Sindh,Sukkur,2010 Super Flood,18,12000,18000,300000,280000,Moderate,Riverine,World Bank PDNA 2010,27.7052,68.8574
+2010,Balochistan,Jaffarabad,2010 Super Flood,22,18000,25000,280000,200000,Severe,Riverine,World Bank PDNA 2010,29.463,67.9218
+2011,Sindh,Larkana,2011 Sindh Floods,58,120000,80000,900000,600000,Catastrophic,Riverine,GFDRR DNA 2011,27.557,68.212
+2011,Sindh,Dadu,2011 Sindh Floods,42,90000,65000,700000,500000,Catastrophic,Riverine,GFDRR DNA 2011,26.7315,67.7751
+2011,Sindh,Hyderabad,2011 Sindh Floods,35,70000,50000,600000,400000,Severe,Riverine,GFDRR DNA 2011,25.396,68.3578
+2011,Balochistan,Jhal Magsi,2011 Balochistan Floods,40,35000,30000,250000,180000,Severe,Flash Flood,GFDRR DNA 2011,28.2758,67.4544
+2022,Sindh,Dadu,2022 Mega Flood,95,85000,120000,1200000,1000000,Catastrophic,Monsoon + Riverine,Wikipedia; OCHA SITREP; PDNA 2022,26.7315,67.7751
+2022,Sindh,Jacobabad,2022 Mega Flood,19,40000,55000,500000,400000,Catastrophic,Monsoon + Riverine,Wikipedia; OCHA,28.282,68.4375
+2022,Sindh,Sukkur,2022 Mega Flood,38,52000,70000,650000,550000,Catastrophic,Riverine Inundation,PDNA 2022; Wikipedia,27.7052,68.8574
+2022,Sindh,Naushahro Feroze,2022 Mega Flood,30,45000,60000,550000,480000,Catastrophic,Monsoon + Riverine,PDNA 2022; Nature Scientific Reports,26.8425,68.1155
+2022,Sindh,Khairpur,2022 Mega Flood,28,42000,58000,520000,460000,Catastrophic,Riverine,PDNA 2022,27.5319,68.7588
+2022,Balochistan,Lasbela,2022 Mega Flood,65,28000,35000,320000,280000,Catastrophic,Flash Flood,OCHA SITREP; Germany aid report,26.2063,65.31
+2022,Balochistan,Khuzdar,2022 Mega Flood,42,20000,28000,240000,200000,Severe,Flash Flood,OCHA SITREP,27.8002,66.6091
+2022,KPK,Swat,2022 Mega Flood,55,25000,35000,400000,200000,Severe,Flash Flood,Wikipedia; OCHA,35.2227,72.4258
+2022,KPK,Dera Ismail Khan,2022 Mega Flood,12,18000,25000,280000,180000,Severe,Flash Flood,Wikipedia,31.8314,70.9016
+2022,Punjab,Rajanpur,2022 Mega Flood,38,8000,10000,180000,350000,Moderate,Riverine,PDNA 2022,29.1044,70.3297
+2022,Punjab,Muzaffargarh,2022 Mega Flood,32,7000,9000,160000,300000,Moderate,Riverine,PDNA 2022,30.0704,71.193
+2025,KPK,Buner,2025 Punjab-KP Floods,85,3500,6000,280000,120000,Catastrophic,Flash Flood,NDMA SITREP #87; OCHA Flash Update #7,34.558,72.5021
+2025,KPK,Swat,2025 Punjab-KP Floods,65,2800,5000,220000,100000,Severe,Flash Flood + Riverine,NDMA; Wikipedia 2025 floods,35.2227,72.4258
+2025,KPK,Bajaur,2025 Punjab-KP Floods,55,2200,4000,190000,90000,Severe,Flash Flood,OCHA Flash Update; NDMA,34.8453,71.5024
+2025,Punjab,Muzaffargarh,2025 Punjab-KP Floods,42,8000,25000,400000,280000,Severe,Riverine (Indus/Chenab),NDMA SITREP; Arab News,30.0704,71.193
+2025,Punjab,Rajanpur,2025 Punjab-KP Floods,38,7000,22000,350000,250000,Severe,Riverine,NDMA; Arab News,29.1044,70.3297
+2025,Punjab,Bahawalnagar,2025 Punjab-KP Floods,28,5000,18000,280000,220000,Moderate,Riverine (Sutlej),NDMA SITREP; Shelter Cluster,29.9868,73.2525
+2025,Gilgit-Baltistan,Multiple GB Districts,2025 GLOF Events,41,481,779,50000,40000,Moderate,GLOF,NDMA; Wikipedia 2025,36.0,75.0
