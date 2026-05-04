@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pakistan Flood Risk Dashboard</title>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #f4f6f8; color: #111827; }
+    .header { background: #0f172a; color: white; padding: 24px; text-align: center; }
+    .header h1 { margin: 0; font-size: 28px; }
+    .header p { margin: 8px 0 0; color: #cbd5e1; }
+    .container { padding: 20px; max-width: 1400px; margin: auto; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-bottom: 20px; }
+    .card, .chart { background: white; padding: 18px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+    .metric { font-size: 30px; font-weight: bold; margin-top: 10px; }
+    .low { color: green; } .medium { color: orange; } .high { color: red; }
+    .filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 20px; }
+    label { font-weight: bold; font-size: 14px; }
+    select, button { padding: 10px; margin-top: 6px; width: 100%; box-sizing: border-box; border-radius: 6px; border: 1px solid #cbd5e1; }
+    button { background: #2563eb; color: white; border: none; cursor: pointer; font-weight: bold; }
+    button:hover { background: #1d4ed8; }
+    .chart { margin-bottom: 20px; }
+    .error { background: #fee2e2; color: #991b1b; padding: 14px; border-radius: 8px; margin-bottom: 20px; display: none; }
+    .note { background: #eff6ff; color: #1e3a8a; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>AI-Based Flood Prediction & Early Warning Dashboard</h1>
+    <p>Pakistan Flood Disaster Risk Monitoring System</p>
+  </div>
+
+  <div class="container">
+    <div class="note">
+      This dashboard reads real geospatial flood records from <b>flood_data.json</b>.
+      Keep <b>dashboard.html</b> and <b>flood_data.json</b> in the same folder.
+    </div>
+
+    <div id="errorBox" class="error"></div>
+
+    <div class="filters">
+      <div>
+        <label for="yearFilter">Filter by Year</label>
+        <select id="yearFilter"><option value="All">All Years</option></select>
+      </div>
+      <div>
+        <label for="riskFilter">Filter by Risk Level</label>
+        <select id="riskFilter">
+          <option value="All">All Risk Levels</option>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+      </div>
+      <div>
+        <label>&nbsp;</label>
+        <button onclick="applyFilters()">Apply Filters</button>
+      </div>
+    </div>
+
+    <div class="cards">
+      <div class="card"><h3>Total Flood Records</h3><div class="metric" id="totalRecords">0</div></div>
+      <div class="card"><h3>High Risk Records</h3><div class="metric high" id="highRecords">0</div></div>
+      <div class="card"><h3>Medium Risk Records</h3><div class="metric medium" id="mediumRecords">0</div></div>
+      <div class="card"><h3>Low Risk Records</h3><div class="metric low" id="lowRecords">0</div></div>
+    </div>
+
+    <div class="chart"><div id="mapChart"></div></div>
+    <div class="chart"><div id="riskChart"></div></div>
+    <div class="chart"><div id="yearChart"></div></div>
+  </div>
+
+  <script>
+    let floodData = [];
+
+    function normalizeRisk(value) {
+      if (!value) return "Unknown";
+      const risk = String(value).trim().toLowerCase();
+      if (risk === "high") return "High";
+      if (risk === "medium" || risk === "moderate") return "Medium";
+      if (risk === "low") return "Low";
+      return String(value);
+    }
+
+    function getColor(risk) {
+      if (risk === "High") return "red";
+      if (risk === "Medium") return "orange";
+      if (risk === "Low") return "green";
+      return "gray";
+    }
+
+    function showError(message) {
+      const errorBox = document.getElementById("errorBox");
+      errorBox.style.display = "block";
+      errorBox.innerHTML = message;
+    }
+
+    function updateMetrics(data) {
+      document.getElementById("totalRecords").innerText = data.length;
+      document.getElementById("highRecords").innerText = data.filter(row => row.flood_risk === "High").length;
+      document.getElementById("mediumRecords").innerText = data.filter(row => row.flood_risk === "Medium").length;
+      document.getElementById("lowRecords").innerText = data.filter(row => row.flood_risk === "Low").length;
+    }
+
+    function populateYearFilter(data) {
+      const yearFilter = document.getElementById("yearFilter");
+      const years = [...new Set(data.map(row => row.year).filter(Boolean))].sort();
+      years.forEach(year => {
+        const option = document.createElement("option");
+        option.value = year;
+        option.textContent = year;
+        yearFilter.appendChild(option);
+      });
+    }
+
+    function drawMap(data) {
+      const cleanData = data.filter(row =>
+        row.latitude !== null && row.longitude !== null &&
+        row.latitude !== undefined && row.longitude !== undefined &&
+        !isNaN(Number(row.latitude)) && !isNaN(Number(row.longitude))
+      );
+
+      const trace = {
+        type: "scattergeo",
+        mode: "markers",
+        lat: cleanData.map(row => Number(row.latitude)),
+        lon: cleanData.map(row => Number(row.longitude)),
+        text: cleanData.map(row =>
+          `Risk: ${row.flood_risk}<br>Year: ${row.year ?? "N/A"}<br>Latitude: ${row.latitude}<br>Longitude: ${row.longitude}`
+        ),
+        marker: {
+          size: 8,
+          color: cleanData.map(row => getColor(row.flood_risk)),
+          opacity: 0.75,
+          line: { width: 0.5, color: "white" }
+        }
+      };
+
+      const layout = {
+        title: "Geospatial Flood Risk Map - Pakistan",
+        geo: {
+          scope: "asia",
+          projection: { type: "natural earth" },
+          showland: true,
+          landcolor: "rgb(230,230,230)",
+          countrycolor: "rgb(180,180,180)",
+          showcountries: true,
+          lataxis: { range: [23, 38] },
+          lonaxis: { range: [60, 78] }
+        },
+        margin: { t: 50, b: 20 }
+      };
+
+      Plotly.newPlot("mapChart", [trace], layout, { responsive: true });
+    }
+
+    function drawRiskChart(data) {
+      const counts = {
+        Low: data.filter(row => row.flood_risk === "Low").length,
+        Medium: data.filter(row => row.flood_risk === "Medium").length,
+        High: data.filter(row => row.flood_risk === "High").length
+      };
+
+      Plotly.newPlot("riskChart", [{
+        x: Object.keys(counts),
+        y: Object.values(counts),
+        type: "bar",
+        marker: { color: ["green", "orange", "red"] }
+      }], {
+        title: "Flood Risk Distribution",
+        xaxis: { title: "Risk Level" },
+        yaxis: { title: "Number of Records" },
+        margin: { t: 50 }
+      }, { responsive: true });
+    }
+
+    function drawYearChart(data) {
+      const yearCounts = {};
+      data.forEach(row => {
+        if (row.year !== undefined && row.year !== null && row.year !== "") {
+          yearCounts[row.year] = (yearCounts[row.year] || 0) + 1;
+        }
+      });
+
+      const years = Object.keys(yearCounts).sort();
+
+      Plotly.newPlot("yearChart", [{
+        x: years,
+        y: years.map(year => yearCounts[year]),
+        type: "scatter",
+        mode: "lines+markers"
+      }], {
+        title: "Flood Records Over Time",
+        xaxis: { title: "Year" },
+        yaxis: { title: "Number of Records" },
+        margin: { t: 50 }
+      }, { responsive: true });
+    }
+
+    function renderDashboard(data) {
+      updateMetrics(data);
+      drawMap(data);
+      drawRiskChart(data);
+      drawYearChart(data);
+    }
+
+    function applyFilters() {
+      const selectedYear = document.getElementById("yearFilter").value;
+      const selectedRisk = document.getElementById("riskFilter").value;
+
+      let filteredData = floodData;
+
+      if (selectedYear !== "All") {
+        filteredData = filteredData.filter(row => String(row.year) === String(selectedYear));
+      }
+
+      if (selectedRisk !== "All") {
+        filteredData = filteredData.filter(row => row.flood_risk === selectedRisk);
+      }
+
+      renderDashboard(filteredData);
+    }
+
+    fetch("flood_data.json")
+      .then(response => {
+        if (!response.ok) throw new Error("Could not load flood_data.json");
+        return response.json();
+      })
+      .then(data => {
+        floodData = data.map(row => ({
+          ...row,
+          latitude: Number(row.latitude),
+          longitude: Number(row.longitude),
+          flood_risk: normalizeRisk(row.flood_risk)
+        }));
+
+        populateYearFilter(floodData);
+        renderDashboard(floodData);
+      })
+      .catch(error => {
+        showError(
+          "Dashboard could not load <b>flood_data.json</b>.<br><br>" +
+          "Make sure <b>dashboard.html</b> and <b>flood_data.json</b> are in the same folder.<br>" +
+          "If opening directly does not work, run:<br><br>" +
+          "<code>python -m http.server 8000</code><br><br>" +
+          "Then open: <code>http://localhost:8000/dashboard.html</code>"
+        );
+        console.error(error);
+      });
+  </script>
+</body>
+</html>
